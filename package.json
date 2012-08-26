@@ -1,0 +1,13 @@
+{
+  "name": "google-calendar",
+  "description": "Google Calendar Connection for Node.js",
+  "homepage": "https://github.com/berryboy/google-calendar",
+  "repository":{ 
+      "type" : "git",
+      "url" : "https://github.com/berryboy/google-calendar"
+    },
+  "version": "0.0.1",
+  "main": "./GoogleCalendar",
+  "dependencies": {
+    }
+}
