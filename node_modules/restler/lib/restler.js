@@ -368,12 +368,18 @@ var parsers = {
   },
   json: function(data, callback) {
     if (data && data.length) {
+      
+      var error = null;
+      var result = null;
+      
       try {
-        callback(null, JSON.parse(data));
+        result = JSON.parse(data)
       } catch (err) {
         err.message = 'Failed to parse JSON body: ' + err.message;
-        callback(err, null);
+        error = err;
       }
+      
+      callback(error, result);
     } else {
       callback(null, null);
     }

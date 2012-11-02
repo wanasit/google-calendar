@@ -64,43 +64,29 @@ app.all('/', function(req, res){
   if(!access_token)return res.redirect('/authentication');
   
   google_calendar.listCalendarList(access_token, function(err, data) {
-    
+
     if(err) return res.send(500,err);
+    var calendars = data.items.filter(function(calendar) {
+      return calendar.accessRole == 'owner';
+    });
     
+    var newEvent = {
+      start:{ date: '2012-9-12'},
+      end:{ date: '2012-9-13'},
+    }
     
-    data.items.forEach(function(calendar) {
+    var calendar = calendars[0];
+    google_calendar.insertEvent(access_token, calendar.id, newEvent, function(err, event) {
+
+      if(err){
+        return res.send(500,event);
+      } 
       
-      waiting++;
-      google_calendar.listEvent(access_token, calendar.id, function(err, events) {
-        
-        if(err) {
-          console.log(err)
-          return returnRespond();
-        }
-        
-        output += '<h2>Calendar : '+calendar.summary+ ' ('+ calendar.id + ')</h2>';
-        
-        events.items.forEach(function(event) {
-          output += '<p><b>'+event.summary+ '</b> '+ event.start.date +' - '+ event.end.date+ '</p>';
-        })
-        
-        return returnRespond();
-      })
-    })
-    
-    return returnRespond();
+      output += '<h2>'+ JSON.stringify(event) +'</h2>';
+      output += outputEnd;
+      return res.send(output);
+    });
   });
-  
-  function returnRespond(){
-    
-    if(waiting != 0){
-      waiting--;
-      return;
-    } 
-    
-    output += outputEnd;
-    return res.send(output);
-  }
   
 });
 
