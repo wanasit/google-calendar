@@ -6,8 +6,11 @@
       "type" : "git",
       "url" : "https://github.com/berryboy/google-calendar"
     },
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./GoogleCalendar",
   "dependencies": {
-    }
+    "restler": "lastest",
+		"express":"latest",
+		"google-oauth":"latest"
+  }
 }
