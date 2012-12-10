@@ -113,19 +113,19 @@ GoogleCalendar.prototype.insertEvent = function(access_token, calendarId, event,
 
 GoogleCalendar.prototype.getEvent = function(access_token, calendarId, eventId, option, callback) {
   
-  return this.sendRequest('get', 'https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(calendarId)+'/events'+eventId, 
+  return this.sendRequest('get', 'https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(calendarId)+'/events/'+eventId, 
     access_token, option, callback);
 }
 
 GoogleCalendar.prototype.deleteEvent = function(access_token, calendarId, eventId, option, callback) {
   
-  return this.sendRequest('delete', 'https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(calendarId)+'/events'+eventId, 
+  return this.sendRequest('delete', 'https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(calendarId)+'/events/'+eventId, 
     access_token, option, callback);
 }
 
 GoogleCalendar.prototype.updateEvent = function(access_token, calendarId, eventId, event, option, callback) {
   
-  return this.sendRequest('put', 'https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(calendarId)+'/events'+eventId, 
+  return this.sendRequest('put', 'https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(calendarId)+'/events/'+eventId, 
     access_token, option, event, callback);
 }
 
