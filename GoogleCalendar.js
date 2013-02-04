@@ -24,18 +24,17 @@ GoogleCalendar.prototype.getGoogleAccessToken = function(params, callback) {
 }
 
 GoogleCalendar.prototype.sendRequest = function(type, url, access_token, option, body, callback) {
-  
-  if(callback == null && body==null) {
-    callback = option;
-    option = null;
+
+  if((callback === null || callback === undefined) && body !== null) {
+    callback = body;
     body = null;
   }
-  else if(callback == null) {
+
+  if((callback === null || callback === undefined) && option !== null) {
     callback = option;
     option = null;
-    body = null;
   }
-  
+
   if(body && typeof body == 'object'){
     body = JSON.stringify(body)
   } 
