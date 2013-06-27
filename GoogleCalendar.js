@@ -1,131 +1,257 @@
-
 exports.GoogleCalendar = GoogleCalendar;
 
 var util   = require('util');
-var querystring = require('querystring');
+var needle = require('needle');
 
-var OAuth = require('google-oauth');
-var rest = require('restler');
-
-function GoogleCalendar(consumer_key, consumer_secret,callback_url){
-  this.key = consumer_key;
-  this.oauth = new OAuth.OAuth2(
-    consumer_key, 
-    consumer_secret,
-    callback_url);
-}
-
-GoogleCalendar.prototype.getGoogleAuthorizeTokenURL = function(callback) {
-	return this.oauth.getGoogleAuthorizeTokenURL(['https://www.googleapis.com/auth/calendar'], callback)
-}
-
-GoogleCalendar.prototype.getGoogleAccessToken = function(params, callback) {
-	return this.oauth.getGoogleAccessToken(params, callback)
-}
-
-GoogleCalendar.prototype.sendRequest = function(type, url, access_token, option, body, callback) {
-
-  if((callback === null || callback === undefined) && body !== null) {
-    callback = body;
-    body = null;
-  }
-
-  if((callback === null || callback === undefined) && option !== null) {
-    callback = option;
-    option = null;
-  }
-
-  if(body && typeof body == 'object'){
-    body = JSON.stringify(body)
-  } 
+function GoogleCalendar(access_token){
   
-  callback = callback || function(){};
-  option = option || {};
-  option.access_token = access_token;
-  option.key = this.key;
-  
-  var restRequest = null;
-  var requestOption = { query:option, parser:rest.parsers.json };
-  if(body){
-    requestOption.data = body;
-    requestOption.headers = {};
-    requestOption.headers['content-type'] = 'application/json';
-  }  
-  
-  switch(type.toLowerCase()){
+  this.request  = function(type, path, params, options, body, callback) {  
     
-    case 'del':
-    case 'delete': 
-        restRequest = rest.del(url, requestOption);
-      break;
-      
-    case 'put': restRequest = rest.put(url, requestOption);
-      break;
+    var url = 'https://www.googleapis.com/calendar/v3'+path+'?access_token='+access_token;
     
-    case 'post': restRequest = rest.post(url, requestOption);
-      break;
+    params = params || {}
+    options = options || {}
     
-    default : restRequest = rest.get(url, requestOption);
-  }
-  
-
-  restRequest.on('complete', function(result, response ) {
-    
-    if(result instanceof Error || response.statusCode != 200){  
-      return callback(result, response.rawEncoded);
+    for(var k in params){
+      url += '&'+encodeURIComponent(k)+'='+ encodeURIComponent(params[k]);
     }
     
-    return callback(null, result);
-  })
+    //console.log(type +' - '+ url);
+    needle.request(type, url, body, options, function(error, response, body) {
+      callback(error, body)
+    })
+  };
+  
+  this.acl      = new Acl(this.request);
+  this.calendarList = new CalendarList(this.request);
+  this.calendars = new Calendars(this.request);
+  this.events   = new Events(this.request);
+  this.freebusy = new Freebusy(this.request);
+  this.settings = new Settings(this.request);
 }
 
-// Calendar List
+// Acl
+function Acl(request){ this.request = request; }
 
-GoogleCalendar.prototype.listCalendarList = function(access_token, option, callback) {
-  
-  return this.sendRequest('get','https://www.googleapis.com/calendar/v3/users/me/calendarList', access_token, option, callback)
-} 
-
-GoogleCalendar.prototype.getCalendarList = function(access_token, calendarId, callback) {
-  
-  return this.sendRequest('get','https://www.googleapis.com/calendar/v3/users/me/calendarList/'+calendarId, access_token, option, callback)
+Acl.prototype.delete = function(calendarId, ruleId, callback) {
+  this.request('DEL', '/calendars/' + calendarId + '/acl/' + ruleId, 
+    {}, {}, null, callback);
 }
+
+Acl.prototype.get = function() {
+  
+}
+
+Acl.prototype.insert = function() {
+  
+}
+
+Acl.prototype.list = function() {
+  
+}
+
+Acl.prototype.update = function() {
+  
+}
+
+Acl.prototype.patch = function() {
+  
+}
+
+
+
+// CalendarList
+function CalendarList(request){ this.request = request; }
+
+CalendarList.prototype.delete = function() {
+  this.request('DEL', '/calendars/' + calendarId + '/acl/' + ruleId, 
+    {}, {}, null, callback);
+}
+
+CalendarList.prototype.get = function() {
+  
+}
+
+CalendarList.prototype.insert = function() {
+  
+}
+
+CalendarList.prototype.list = function(option, callback) {
+  
+  if(!callback){ callback = option; option = {} }
+  this.request('GET', '/users/me/calendarList', option, {}, null, callback);
+}
+
+CalendarList.prototype.update = function() {
+  
+}
+
+CalendarList.prototype.patch = function() {
+  
+}
+
+
+
+// Calendars
+function Calendars(request){ this.request = request; }
+
+Calendars.prototype.clear = function() {
+  
+}
+
+Calendars.prototype.delete = function() {
+  
+}
+
+Calendars.prototype.get = function() {
+  
+}
+
+Calendars.prototype.insert = function() {
+  
+}
+
+Calendars.prototype.update = function() {
+  
+}
+
+Calendars.prototype.patch = function() {
+  
+}
+
+
 
 // Events
+function Events(request){ this.request = request; }
 
-GoogleCalendar.prototype.listEvent = function(access_token, calendarId, option, callback) {
+
+Events.prototype.delete = function(calendarId, eventId, option, callback) {
   
-  return this.sendRequest('get', 'https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(calendarId)+'/events', 
-    access_token, option, callback);
+  if(!callback){ callback = option; option = {}; }
+  
+  calendarId = encodeURIComponent(calendarId);
+  eventId    = encodeURIComponent(eventId);
+  
+  this.request('DELETE', '/calendars/'+calendarId+'/events/'+eventId, 
+    option, {}, null, callback);
 }
 
-GoogleCalendar.prototype.insertEvent = function(access_token, calendarId, event, option, callback) {
+Events.prototype.get = function(calendarId, eventId, option, callback) {
   
-  if(arguments.length < 5){
-    callback = option;
-    option = {};
-  }
+  if(!callback){ callback = option; option = {}; }
   
-  return this.sendRequest('post', 'https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(calendarId)+'/events', 
-    access_token, option, event, callback);
+  calendarId = encodeURIComponent(calendarId);
+  eventId    = encodeURIComponent(eventId);
+  
+  this.request('GET', '/calendars/'+calendarId+'/events/'+eventId, 
+    option, {}, null, callback);
 }
 
-GoogleCalendar.prototype.getEvent = function(access_token, calendarId, eventId, option, callback) {
+Events.prototype.import = function(calendarId, event, option, callback) {
   
-  return this.sendRequest('get', 'https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(calendarId)+'/events/'+eventId, 
-    access_token, option, callback);
+  if(!callback){ callback = option; option = {}; }
+  
+  calendarId = encodeURIComponent(calendarId);
+  
+  this.request('POST', '/calendars/'+calendarId+'/events/import', 
+    option, {}, event, callback);
 }
 
-GoogleCalendar.prototype.deleteEvent = function(access_token, calendarId, eventId, option, callback) {
+Events.prototype.insert = function(calendarId, event, option, callback) {
   
-  return this.sendRequest('delete', 'https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(calendarId)+'/events/'+eventId, 
-    access_token, option, callback);
+  if(!callback){ callback = option; option = {}; }
+  
+  calendarId = encodeURIComponent(calendarId);
+  
+  this.request('POST', '/calendars/'+calendarId+'/events', 
+    option, {}, event, callback);
 }
 
-GoogleCalendar.prototype.updateEvent = function(access_token, calendarId, eventId, event, option, callback) {
+Events.prototype.instances = function(calendarId, eventId, option, callback) {
   
-  return this.sendRequest('put', 'https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(calendarId)+'/events/'+eventId, 
-    access_token, option, event, callback);
+  if(!callback){ callback = option; option = {}; }
+  
+  calendarId = encodeURIComponent(calendarId);
+  eventId    = encodeURIComponent(eventId);
+  
+  this.request('GET', '/calendars/'+calendarId+'/events/'+eventId+'/instances', 
+    option, {}, null, callback);
+}
+
+Events.prototype.list = function(calendarId, option, callback) {
+  
+  if(!callback){ callback = option; option = {}; }
+  
+  calendarId = encodeURIComponent(calendarId);
+  
+  this.request('GET', '/calendars/'+calendarId+'/events', 
+    option, {}, null, callback);
+}
+
+Events.prototype.move = function(calendarId, eventId, option, callback) {
+  
+  if(!callback){ callback = option; option = {}; }
+  
+  calendarId = encodeURIComponent(calendarId);
+  eventId    = encodeURIComponent(eventId);
+  
+  this.request('POST', '/calendars/'+calendarId+'/events/'+eventId+'/move', 
+    option, {}, null, callback);
+}
+
+Events.prototype.quickAdd = function(calendarId, text, option, callback) {
+  
+  if(!callback){ callback = option; option = {}; }
+  
+  option.text = text;
+  calendarId = encodeURIComponent(calendarId);
+  
+  this.request('POST', '/calendars/'+calendarId+'/events/quickAdd', 
+    option, {}, null, callback);
+}
+
+Events.prototype.update = function(calendarId, eventId, update, option, callback) {
+  
+  if(!callback){ callback = option; option = {}; }
+  
+  calendarId = encodeURIComponent(calendarId);
+  eventId    = encodeURIComponent(eventId);
+  
+  this.request('POST', '/calendars/'+calendarId+'/events/'+eventId, 
+    option, {}, update, callback);
+}
+
+Events.prototype.patch = function(calendarId, eventId, patch, option, callback) {
+  if(!callback){ callback = option; option = {}; }
+  
+  calendarId = encodeURIComponent(calendarId);
+  eventId    = encodeURIComponent(eventId);
+  
+  this.request('POST', '/calendars/'+calendarId+'/events/'+eventId, 
+    option, {}, patch, callback);
+}
+
+
+
+// Freebusy
+function Freebusy(request){ this.request = request; }
+
+Freebusy.prototype.query = function() {
+  
+}
+
+
+
+// Settings
+function Settings(request){ this.request = request; }
+
+
+Settings.prototype.set = function() {
+  
+}
+
+Settings.prototype.get = function() {
+  
 }
 
 
