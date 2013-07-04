@@ -3,16 +3,13 @@ Google-Calendar
 
 Google Calendar library for Node.js
 
+```javascript
+npm install google-calendar
+```
 
 #### For 0.0.x users
 
 This module (1.x.x) has been redesigned completely. So, it incompatible with the old version. The 0.0.x version is moved to branch name [v0](https://github.com/berryboy/google-calendar/tree/v0).
-
-#### NPM package is currently NOT available
-
-NPM package for this library is not ready at the time. Please, download the library directly from [website](https://github.com/berryboy/google-calendar/archive/master.zip), and extract it in your `node_modules` folder.
-
-Currently, `npm install google-calendar` will install the old version.
 
 Usage
 =======
