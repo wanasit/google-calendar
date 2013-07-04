@@ -16,10 +16,18 @@ function GoogleCalendar(access_token){
       url += '&'+encodeURIComponent(k)+'='+ encodeURIComponent(params[k]);
     }
     
-    //console.log(type +' - '+ url);
-    needle.request(type, url, body, options, function(error, response, body) {
-      callback(error, body)
-    })
+    type = type.toUpperCase();
+    
+    if(type == 'GET')
+      needle.get(url, options, function(error, response, body) { callback(error, body) })
+    else if(type == 'DELETE')
+      needle.delete(url, options, function(error, response, body) { callback(error, body) })
+    else if(type == 'POST')
+      needle.post(url, body, options, function(error, response, body) { callback(error, body) })
+    else if(type == 'PUT')
+      needle.put(url, body, options, function(error, response, body) { callback(error, body) })
+    else
+      throw new Error('Unrecognized HTTP operation');
   };
   
   this.acl      = new Acl(this.request);
