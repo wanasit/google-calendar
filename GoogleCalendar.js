@@ -11,23 +11,32 @@ function GoogleCalendar(access_token){
     
     params = params || {}
     options = options || {}
+    options.json = true;
+    
+    type = type.toUpperCase();
+    if(typeof body !== 'string') body = JSON.stringify(body);
+    
     
     for(var k in params){
       url += '&'+encodeURIComponent(k)+'='+ encodeURIComponent(params[k]);
     }
     
-    type = type.toUpperCase();
-    
     if(type == 'GET')
-      needle.get(url, options, function(error, response, body) { callback(error, body) })
+      needle.get(url, options, responseHandler)
     else if(type == 'DELETE')
-      needle.delete(url, options, function(error, response, body) { callback(error, body) })
+      needle.delete(url, options, responseHandler)
     else if(type == 'POST')
-      needle.post(url, body, options, function(error, response, body) { callback(error, body) })
+      needle.post(url, body, options, responseHandler)
     else if(type == 'PUT')
-      needle.put(url, body, options, function(error, response, body) { callback(error, body) })
+      needle.put(url, body, options, responseHandler)
     else
       throw new Error('Unrecognized HTTP operation');
+    
+    function responseHandler(error, response, body) {
+      if(error) return callback(error, body);
+      if(body.error) return callback(body.error, null);
+      return callback(null, body);
+    }
   };
   
   this.acl      = new Acl(this.request);
