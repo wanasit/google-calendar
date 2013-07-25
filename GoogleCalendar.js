@@ -113,23 +113,32 @@ CalendarList.prototype.patch = function() {
 function Calendars(request){ this.request = request; }
 
 Calendars.prototype.clear = function() {
-  
+  if(!callback){ callback = option; option = {}; }
+  calendarId = encodeURIComponent(calendarId);
+  this.request('POST', '/calendars/'+calendarId+'/clear', option, {}, null, callback);
 }
 
 Calendars.prototype.delete = function() {
-  
+  if(!callback){ callback = option; option = {}; }
+  calendarId = encodeURIComponent(calendarId);
+  this.request('DELETE', '/calendars/'+calendarId, option, {}, null, callback);
 }
 
-Calendars.prototype.get = function() {
-  
+Calendars.prototype.get = function(calendarId, option, callback) {
+  if(!callback){ callback = option; option = {}; }
+  calendarId = encodeURIComponent(calendarId);
+  this.request('GET', '/calendars/'+calendarId, option, {}, null, callback);
 }
 
-Calendars.prototype.insert = function() {
-  
+Calendars.prototype.insert = function(calendar, option, callback) {
+  if(!callback){ callback = option; option = {}; }
+  this.request('POST', '/calendars',  option, calendar, null, callback);
 }
 
-Calendars.prototype.update = function() {
-  
+Calendars.prototype.update = function(calendarId, calendar, option, callback) {
+  if(!callback){ callback = option; option = {}; }
+  calendarId = encodeURIComponent(calendarId);
+  this.request('POST', '/calendars/'+calendarId,  option, calendar, null, callback);
 }
 
 Calendars.prototype.patch = function() {
