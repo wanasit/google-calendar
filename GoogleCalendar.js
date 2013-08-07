@@ -138,7 +138,7 @@ Calendars.prototype.insert = function(calendar, option, callback) {
 Calendars.prototype.update = function(calendarId, calendar, option, callback) {
   if(!callback){ callback = option; option = {}; }
   calendarId = encodeURIComponent(calendarId);
-  this.request('POST', '/calendars/'+calendarId,  option, calendar, null, callback);
+  this.request('PUT', '/calendars/'+calendarId,  option, calendar, null, callback);
 }
 
 Calendars.prototype.patch = function() {
@@ -243,7 +243,7 @@ Events.prototype.update = function(calendarId, eventId, update, option, callback
   calendarId = encodeURIComponent(calendarId);
   eventId    = encodeURIComponent(eventId);
   
-  this.request('POST', '/calendars/'+calendarId+'/events/'+eventId, 
+  this.request('PUT', '/calendars/'+calendarId+'/events/'+eventId, 
     option, {}, update, callback);
 }
 
