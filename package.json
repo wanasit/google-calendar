@@ -6,12 +6,12 @@
       "type" : "git",
       "url" : "https://github.com/berryboy/google-calendar"
     },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./GoogleCalendar",
   "dependencies": {
-    "passport": "0.1.17",
-    "passport-google-oauth": "0.1.5",
-    "needle": "0.5.1",
-    "express": "3.2.6"
+    "passport": "0.1.x",
+    "passport-google-oauth": "0.1.x",
+    "needle": "0.5.x",
+    "express": "3.x.x"
   }
 }
