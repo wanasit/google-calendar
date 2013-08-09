@@ -85,7 +85,7 @@ CalendarList.prototype.get = function(calendarId, option, callback) {
 
 CalendarList.prototype.insert = function(calendarList, option, callback) {
   if(!callback){ callback = option; option = {} }
-  this.request('POST', '/users/me/calendarList', option, calendarList, null, callback);
+  this.request('POST', '/users/me/calendarList', option, {}, calendarList, callback);
 }
 
 CalendarList.prototype.list = function(option, callback) {
@@ -96,13 +96,13 @@ CalendarList.prototype.list = function(option, callback) {
 CalendarList.prototype.update = function(calendarId, calendarList, option, callback) {
   if(!callback){ callback = option; option = {} }
   calendarId = encodeURIComponent(calendarId);
-  this.request('PUT', '/users/me/calendarList/'+calendarId, option, calendarList, null, callback);
+  this.request('PUT', '/users/me/calendarList/'+calendarId, option, {}, calendarList, callback);
 }
 
 CalendarList.prototype.patch = function(calendarId, calendarList, option, callback) {
   if(!callback){ callback = option; option = {} }
   calendarId = encodeURIComponent(calendarId);
-  this.request('PATCH', '/users/me/calendarList/'+calendarId, option, calendarList, null, callback);
+  this.request('PATCH', '/users/me/calendarList/'+calendarId, option, {}, calendarList, callback);
 }
 
 
@@ -261,11 +261,11 @@ Events.prototype.patch = function(calendarId, eventId, patch, option, callback) 
 // Freebusy
 function Freebusy(request){ this.request = request; }
 
-Freebusy.prototype.query = function() {
+Freebusy.prototype.query = function(query, option, callback) {
   
+  if(!callback){ callback = option; option = {}; }
+  this.request('POST', '/freeBusy/', option, {}, query, callback);
 }
-
-
 
 // Settings
 function Settings(request){ this.request = request; }
