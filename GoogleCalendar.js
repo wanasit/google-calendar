@@ -14,23 +14,14 @@ function GoogleCalendar(access_token){
     options.json = true;
     
     type = type.toUpperCase();
-    if(typeof body !== 'string') body = JSON.stringify(body);
+    if(body && typeof body !== 'string') body = JSON.stringify(body);
     
     
     for(var k in params){
       url += '&'+encodeURIComponent(k)+'='+ encodeURIComponent(params[k]);
     }
     
-    if(type == 'GET')
-      needle.get(url, options, responseHandler)
-    else if(type == 'DELETE')
-      needle.delete(url, options, responseHandler)
-    else if(type == 'POST')
-      needle.post(url, body, options, responseHandler)
-    else if(type == 'PUT')
-      needle.put(url, body, options, responseHandler)
-    else
-      throw new Error('Unrecognized HTTP operation');
+    needle.request(type, url, body, options, responseHandler);
     
     function responseHandler(error, response, body) {
       if(error) return callback(error, body);
