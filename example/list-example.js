@@ -57,9 +57,8 @@ app.all('/', function(req, res){
   
   //Create an instance from accessToken
   var accessToken = req.session.access_token;
-  var google_calendar = new gcal.GoogleCalendar(accessToken);
-  
-  google_calendar.calendarList.list(function(err, data) {
+
+  gcal(accessToken).calendarList.list(function(err, data) {
     if(err) return res.send(500,err);
     return res.send(data);
   });
@@ -71,11 +70,19 @@ app.all('/:calendarId', function(req, res){
   
   //Create an instance from accessToken
   var accessToken     = req.session.access_token;
-  var google_calendar = new gcal.GoogleCalendar(accessToken);
   var calendarId      = req.params.calendarId;
   
-  google_calendar.events.list(calendarId, function(err, data) {
+  gcal(accessToken).events.list(calendarId, {maxResults:1}, function(err, data) {
     if(err) return res.send(500,err);
+    
+    console.log(data)
+    if(data.nextPageToken){
+      google_calendar.events.list(calendarId, {maxResults:1, pageToken:data.nextPageToken}, function(err, data) {
+        console.log(data.items)
+      })
+    }
+    
+    
     return res.send(data);
   });
 });
@@ -87,11 +94,10 @@ app.all('/:calendarId/:eventId', function(req, res){
   
   //Create an instance from accessToken
   var accessToken     = req.session.access_token;
-  var google_calendar = new gcal.GoogleCalendar(accessToken);
   var calendarId      = req.params.calendarId;
   var eventId         = req.params.eventId;
   
-  google_calendar.events.get(calendarId, eventId, function(err, data) {
+  gcal(accessToken).events.get(calendarId, eventId, function(err, data) {
     if(err) return res.send(500,err);
     return res.send(data);
   });

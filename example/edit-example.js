@@ -56,9 +56,8 @@ app.all('/', function(req, res){
   if(!req.session.access_token) return res.redirect('/auth');
   
   var accessToken = req.session.access_token;
-  var google_calendar = new gcal.GoogleCalendar(accessToken);
   
-  google_calendar.calendarList.list(function(err, data) {
+  gcal(accessToken).calendarList.list(function(err, data) {
     if(err) return res.send(500,err);
     return res.send(data);
   });
@@ -69,10 +68,9 @@ app.all('/:calendarId', function(req, res){
   if(!req.session.access_token) return res.redirect('/auth');
   
   var accessToken     = req.session.access_token;
-  var google_calendar = new gcal.GoogleCalendar(accessToken);
   var calendarId      = req.params.calendarId;
   
-  google_calendar.events.list(calendarId, function(err, data) {
+  gcal(accessToken).events.list(calendarId, function(err, data) {
     if(err) return res.send(500,err);
     return res.send(data);
   });
@@ -83,11 +81,10 @@ app.all('/:calendarId/add', function(req, res){
   if(!req.session.access_token) return res.redirect('/auth');
   
   var accessToken     = req.session.access_token;
-  var google_calendar = new gcal.GoogleCalendar(accessToken);
   var calendarId      = req.params.calendarId;
   var text            = req.query.text || 'Hello World';
   
-  google_calendar.events.quickAdd(calendarId, text, function(err, data) {
+  gcal(accessToken).events.quickAdd(calendarId, text, function(err, data) {
     if(err) return res.send(500,err);
     return res.redirect('/'+calendarId);
   });
@@ -98,11 +95,10 @@ app.all('/:calendarId/:eventId/remove', function(req, res){
   if(!req.session.access_token) return res.redirect('/auth');
   
   var accessToken     = req.session.access_token;
-  var google_calendar = new gcal.GoogleCalendar(accessToken);
   var calendarId      = req.params.calendarId;
   var eventId         = req.params.eventId;
   
-  google_calendar.events.delete(calendarId, eventId, function(err, data) {
+  gcal(accessToken).events.delete(calendarId, eventId, function(err, data) {
     if(err) return res.send(500,err);
     return res.redirect('/'+calendarId);
   });

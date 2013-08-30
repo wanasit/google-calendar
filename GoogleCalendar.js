@@ -1,4 +1,8 @@
-exports.GoogleCalendar = GoogleCalendar;
+
+module.exports = function(access_token) {
+  return new GoogleCalendar(access_token);
+}
+module.exports.GoogleCalendar = GoogleCalendar;
 
 var util   = require('util');
 var needle = require('needle');
