@@ -9,8 +9,7 @@ var needle = require('needle');
 
 function GoogleCalendar(access_token){
   
-  this.request  = function(type, path, params, options, body, callback) {  
-    
+  this.request  = function(type, path, params, options, body,callback) {
     var url = 'https://www.googleapis.com/calendar/v3'+path+'?access_token='+access_token;
     
     params = params || {}
@@ -133,7 +132,8 @@ Calendars.prototype.get = function(calendarId, option, callback) {
 
 Calendars.prototype.insert = function(calendar, option, callback) {
   if(!callback){ callback = option; option = {}; }
-  this.request('POST', '/calendars',  option, calendar, null, callback);
+  // Body should also reflect {summary : calendName}
+  this.request('POST', '/calendars',  option, calendar, option, callback);
 }
 
 Calendars.prototype.update = function(calendarId, calendar, option, callback) {
