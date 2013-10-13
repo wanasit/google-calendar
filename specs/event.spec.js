@@ -65,9 +65,7 @@ describe('google_calendar.events',function() {
       })
     })
   }) 
-
-
-
+  
   describe('#insert()',function() {
     
     var event = { summary:'Hello World' , 
