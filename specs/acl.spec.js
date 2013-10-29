@@ -24,16 +24,27 @@ function getAccessToken(callback){
     
     return callback(null, body.access_token, new Date().getTime() + (body.expires_in-3) * 1000);
   })
-}
+} 
 
-describe('google_calendar.calendarList',function() {
+describe('google_calendar.acl',function() {
   
+  var calendar = null;
   var gcal = null;
   before(function(done) {    
     getAccessToken(function(err, access_token) {
       if(err) return done(err);
+
       gcal = google_calendar(access_token);
-      done();
+      gcal.calendarList.list(function(err, result) {
+
+        should.not.exist(err);
+        should.exist(result);
+        should.exist(result.items);
+        should.exist(result.items.length);
+
+        calendar = result.items[0]
+        done();
+      })
     })
   })
   
@@ -41,25 +52,12 @@ describe('google_calendar.calendarList',function() {
     
     it('return the calendar list' , function(done){
 
-      gcal.calendarList.list(function(err, result) {
+      gcal.acl.list(calendar.id, function(err, result) {
 
         should.not.exist(err);
         should.exist(result);
         should.exist(result.items);
         should.exist(result.items.length);
-        done();
-      })
-    })
-
-    it('return the calendar list with parameters' , function(done){
-
-      gcal.calendarList.list({maxResults:1}, function(err, result) {
-
-        should.not.exist(err);
-        should.exist(result);
-        should.exist(result.items);
-        should.exist(result.items.length);
-        result.items.should.have.length(1);
         done();
       })
     })

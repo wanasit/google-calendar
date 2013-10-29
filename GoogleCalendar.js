@@ -298,14 +298,14 @@ function Settings(request){ this.request = request; }
 
 Settings.prototype.list = function(callback) {
 
-  this.request('GET', 'https://www.googleapis.com/calendar/v3/users/me/settings', 
+  this.request('GET', '/users/me/settings', 
     {}, {}, null, callback);
 }
 
 Settings.prototype.get = function(setting, callback) {
   setting = encodeURIComponent(setting)
-  
-  this.request('GET', 'https://www.googleapis.com/calendar/v3/users/me/settings/'+setting, 
+
+  this.request('GET', '/users/me/settings/'+setting, 
     {}, {}, null, callback);
 }
 
