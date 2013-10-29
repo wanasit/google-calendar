@@ -9,13 +9,9 @@
   "version": "1.2.0",
   "main": "./GoogleCalendar",
   "dependencies": {
-    "passport": "0.1.x",
-    "passport-google-oauth": "0.1.x",
-    "needle": "0.5.x",
-    "express": "3.x.x",
-    
-    "should"  :"latest",
-    "mocha"   :"latest",
-    "async"   :"latest"
+    "passport": "~0.1",
+    "passport-google-oauth": "~0.1",
+    "needle": "~0.5",
+    "express": "~3.3"
   }
 }
