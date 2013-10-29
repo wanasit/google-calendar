@@ -26,41 +26,61 @@ function getAccessToken(callback){
   })
 }
 
-describe('google_calendar.acl',function() {
+describe('google_calendar.calendar',function() {
   
-  var calendar = null;
   var gcal = null;
   before(function(done) {    
     getAccessToken(function(err, access_token) {
       if(err) return done(err);
-
       gcal = google_calendar(access_token);
-      gcal.calendarList.list(function(err, result) {
-
-        should.not.exist(err);
-        should.exist(result);
-        should.exist(result.items);
-        should.exist(result.items.length);
-
-        calendar = result.items[0]
-        done();
-      })
+      done();
     })
   })
   
-  describe('#list()',function() {
+  describe('#get()',function() {
     
-    it('return the calendar list' , function(done){
+    it('return the calendar' , function(done){
 
-      gcal.acl.list(calendar.id, function(err, result) {
+      gcal.calendarList.list(function(err, _result) {
 
         should.not.exist(err);
-        should.exist(result);
-        should.exist(result.items);
-        should.exist(result.items.length);
-        done();
+        should.exist(_result);
+        should.exist(_result.items[0]);
+
+        gcal.calendars.get(_result.items[0].id,function(err, result) {
+  
+          should.not.exist(err);
+          should.exist(result);
+          result.id.should.equal(_result.items[0].id)
+          result.kind.should.equal('calendar#calendar')
+          done()
+        })
       })
     })
+  })
+
+
+  describe('insert and delete',function() {
+    
+    var inserted_calendar_id = null;
+    var calendar = { summary: 'Test' }
+
+    it('return create a new calendar and delete it' , function(done){
+      gcal.calendars.insert(calendar, function(err, result) {
+        
+        should.not.exist(err);
+        should.exist(result);
+        inserted_calendar_id = result.id
+        
+        gcal.calendars.delete(inserted_calendar_id, function(err, result) {
+          should.not.exist(err);
+          should.exist(result);
+          
+          done()
+        })
+      })
+    })
+    
   })
 
 })
