@@ -46,28 +46,49 @@ function GoogleCalendar(access_token){
 function Acl(request){ this.request = request; }
 
 Acl.prototype.delete = function(calendarId, ruleId, callback) {
+  calendarId = encodeURIComponent(calendarId);
+  ruleId     = encodeURIComponent(ruleId);
+
   this.request('DEL', '/calendars/' + calendarId + '/acl/' + ruleId, 
     {}, {}, null, callback);
 }
 
-Acl.prototype.get = function() {
-  
+Acl.prototype.get = function(calendarId, ruleId, callback) {
+  calendarId = encodeURIComponent(calendarId);
+  ruleId     = encodeURIComponent(ruleId);
+
+  this.request('GET', '/calendars/' + calendarId + '/acl/' + ruleId, 
+    {}, {}, null, callback);
 }
 
-Acl.prototype.insert = function() {
-  
+Acl.prototype.insert = function(calendarId, acl, callback) {
+  calendarId = encodeURIComponent(calendarId);
+
+  this.request('POST', '/calendars/' + calendarId + '/acl', 
+    {}, {}, acl, callback);
 }
 
-Acl.prototype.list = function() {
-  
+Acl.prototype.list = function(calendarId, callback) {
+  calendarId = encodeURIComponent(calendarId);
+
+  this.request('GET', '/calendars/' + calendarId + '/acl', 
+    {}, {}, null, callback);
 }
 
-Acl.prototype.update = function() {
+Acl.prototype.update = function(calendarId, ruleId, acl, callback) {
+  calendarId = encodeURIComponent(calendarId);
+  ruleId     = encodeURIComponent(ruleId);
   
+  this.request('PUT', '/calendars/' + calendarId + '/acl/' + ruleId, 
+    {}, {}, acl, callback);
 }
 
-Acl.prototype.patch = function() {
+Acl.prototype.patch = function(calendarId, ruleId, acl, callback) {
+  calendarId = encodeURIComponent(calendarId);
+  ruleId     = encodeURIComponent(ruleId);
   
+  this.request('PATCH', '/calendars/' + calendarId + '/acl/' + ruleId, 
+    {}, {}, acl, callback);
 }
 
 
