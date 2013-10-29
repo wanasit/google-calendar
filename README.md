@@ -71,23 +71,34 @@ google_calendar.calendarList.list(function(err, calendarList) {
 
 ```
 
-Implemented Methods List
+Running Tests
 =======
 
-Calendar List
+This library uses [mocha](http://visionmedia.github.io/mocha/) test framework. 
+All test files are included in folder `/specs`. 
 
-- GoogleCalendar.calendarList.list = function(option, callback)
+To run the test, you need to install the dev-dependecies.
 
-Events (Complete)
+```
+npm install -d
+```
 
-- GoogleCalendar.events.delete = function(calendarId, eventId, option, callback)
-- GoogleCalendar.events.get    = function(calendarId, eventId, option, callback)
-- GoogleCalendar.events.import = function(calendarId, eventId, option, callback)
-- GoogleCalendar.events.insert = function(calendarId, event, option, callback)
-- GoogleCalendar.events.instances = function(calendarId, eventId, option, callback)
-- GoogleCalendar.events.list = function(calendarId, option, callback)
-- GoogleCalendar.events.move = function(calendarId, eventId, option, callback)
-- GoogleCalendar.events.quickAdd = function(calendarId, text, callback)
-- GoogleCalendar.events.update = function(calendarId, eventId, event, option, callback)
-- GoogleCalendar.events.patch	 = function(calendarId, eventId, patch, option, callback)
+You also need fill `/specs/config.js` with API key and refreash_token. See. [Google's document on OAuth2](https://developers.google.com/accounts/docs/OAuth2)
+
+Note: The process to get those createncials is still complicated, I'll improve this later. 
+
+```
+module.exports = {
+		
+	 consumer_key   : 'CONSUMER_KEY',
+   consumer_secret  : 'CONSUMER_SECRET',
+   refresh_token    : 'REFEASH_TOKEN',
+}
+```
+
+The testcase involve calling Google Calendar and take long time to complete. Thus, running mocha with high timeout parameter (more than 6 seconds) is recommended. 
+
+```
+mocha ./specs --timeout 6000
+```
 
