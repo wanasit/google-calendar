@@ -136,7 +136,7 @@ describe('google_calendar.events',function() {
 
         if(err) { 
           //No tesing at this point 
-          console.log(err)  
+          //console.log(err)  
         } else {
           //No tesing at this point 
           //console.log(result) 
