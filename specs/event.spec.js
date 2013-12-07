@@ -64,6 +64,17 @@ describe('google_calendar.events',function() {
         done()
       })
     })
+
+    it('return the events list according to the query option' , function(done){
+      gcal.events.list(calendar_id, { orderBy : 'updated', maxResults: 1 }, function(err, result) {
+
+        should.not.exist(err);
+        should.exist(result);
+        should.exist(result.items);
+        should.exist(result.items.length);
+        done()
+      })
+    })
   }) 
   
   describe('#insert()',function() {
