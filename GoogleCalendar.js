@@ -1,4 +1,3 @@
-
 module.exports = function(access_token) {
   return new GoogleCalendar(access_token);
 }
@@ -105,7 +104,7 @@ CalendarList.prototype.delete = function(calendarId, option, callback) {
 CalendarList.prototype.get = function(calendarId, option, callback) {
   if(!callback){ callback = option; option = {}; }
   calendarId = encodeURIComponent(calendarId);
-  this.request('GET', '/users/me/calendarList'+calendarId, option, {}, null, callback);
+  this.request('GET', '/users/me/calendarList/'+calendarId, option, {}, null, callback);
 }
 
 CalendarList.prototype.insert = function(calendarList, option, callback) {
