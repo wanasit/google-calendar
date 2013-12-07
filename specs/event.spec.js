@@ -97,7 +97,56 @@ describe('google_calendar.events',function() {
     })
   }) 
 
+  describe('#watch()',function() {
+    
+    it('available' , function(done){
 
+      var watch_request = { 
+          "id"     : "01234567-89ab-cdef-0123456789ab", 
+          "type"   : "web_hook",
+          "address": "https://wanasit.github.io/notifications", 
+        }
+
+      gcal.events.watch(calendar_id, watch_request, function(err, result) {
+
+        if(err) { 
+          //No tesing at this point 
+          //console.log(err)  
+        } else {
+          //No tesing at this point 
+          //console.log(result) 
+        }
+        
+        done()
+      })
+    })
+  }) 
+
+
+  describe('#stopWatch()',function() {
+    
+    it('available' , function(done){
+
+      var stop_request = {
+        "id": "4ba78bf0-6a47-11e2-bcfd-0800200c9a66",
+        "resourceId": "ret08u3rv24htgh289g"
+      }
+
+      gcal.events.stopWatch(stop_request, function(err, result) {
+
+        if(err) { 
+          //No tesing at this point 
+          console.log(err)  
+        } else {
+          //No tesing at this point 
+          //console.log(result) 
+        }
+        
+        done()
+      })
+    })
+  }) 
+  
 
 })
 

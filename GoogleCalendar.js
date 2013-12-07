@@ -281,6 +281,20 @@ Events.prototype.patch = function(calendarId, eventId, patch, option, callback) 
     option, {}, patch, callback);
 }
 
+Events.prototype.watch = function(calendarId, watch_request, option, callback){
+  if(!callback){ callback = option; option = {}; }
+  
+  calendarId = encodeURIComponent(calendarId);
+  
+  this.request('POST', '/calendars/'+calendarId+'/events/watch', 
+    option, {}, watch_request, callback);
+}
+
+Events.prototype.stopWatch = function(stop_request, callback){
+
+  this.request('POST', '/channels/stop', 
+    {}, {}, stop_request, callback);
+}
 
 
 // Freebusy
