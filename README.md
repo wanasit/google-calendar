@@ -9,21 +9,21 @@ npm install google-calendar
 
 #### For 0.0.x users
 
-This module (1.x.x) has been redesigned completely. So, it incompatible with the old version. The 0.0.x version is moved to branch name [v0](https://github.com/berryboy/google-calendar/tree/v0).
+This module (1.x.x) has been redesigned completely, so it is incompatible with the old version. The 0.0.x version is moved to branch name [v0](https://github.com/berryboy/google-calendar/tree/v0).
 
 Usage
 =======
 
 #### AccessToken & Authentication
 
-This library requires Google API's [Acceess Token](https://developers.google.com/accounts/docs/OAuth2) with calendars [scope](https://developers.google.com/google-apps/calendar/auth).
+This library requires Google API's [Access Token](https://developers.google.com/accounts/docs/OAuth2) with calendars [scope](https://developers.google.com/google-apps/calendar/auth).
 
 ```javascript
 var gcal = require('google-calendar');
 var google_calendar = new gcal.GoogleCalendar(accessToken);
 ```
 
-To get `accessToken`, use other authentication framework such as [passport](https://github.com/jaredhanson/passport) (recommended, but not required) for OAuth 2.0 authentication. You can take look at example code in [example](https://github.com/berryboy/google-calendar/tree/master/example) folder.
+To get `accessToken`, use another authentication framework such as [passport](https://github.com/jaredhanson/passport) (recommended, but not required) for OAuth 2.0 authentication. You can take look at the example code in [example](https://github.com/berryboy/google-calendar/tree/master/example) folder.
 
 ```javascript
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -77,28 +77,26 @@ Running Tests
 This library uses [mocha](http://visionmedia.github.io/mocha/) test framework. 
 All test files are included in folder `/specs`. 
 
-To run the test, you need to install the dev-dependecies.
+To run the test, you need to install the dev-dependencies.
 
 ```
 npm install -d
 ```
 
-You also need fill `/specs/config.js` with API key and refreash_token. See. [Google's document on OAuth2](https://developers.google.com/accounts/docs/OAuth2)
+You also need to fill `/specs/config.js` with your API key and refresh_token. See [Google's document on OAuth2](https://developers.google.com/accounts/docs/OAuth2).
 
-Note: The process to get those createncials is still complicated, I'll improve this later. 
+Note: The process for getting those credentials is still complicated; I'll improve this later. 
 
 ```
 module.exports = {
-		
-	 consumer_key   : 'CONSUMER_KEY',
-   consumer_secret  : 'CONSUMER_SECRET',
-   refresh_token    : 'REFEASH_TOKEN',
+  consumer_key     : 'CONSUMER_KEY',
+  consumer_secret  : 'CONSUMER_SECRET',
+  refresh_token    : 'REFRESH_TOKEN',
 }
 ```
 
-The testcase involve calling Google Calendar and take long time to complete. Thus, running mocha with high timeout parameter (more than 6 seconds) is recommended. 
+The testcase involves calling Google Calendar and takes a long time to complete. Thus, running mocha with a high timeout parameter (more than 6 seconds) is recommended. 
 
 ```
 mocha ./specs --timeout 6000
 ```
-
