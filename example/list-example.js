@@ -77,7 +77,7 @@ app.all('/:calendarId', function(req, res){
     
     console.log(data)
     if(data.nextPageToken){
-      google_calendar.events.list(calendarId, {maxResults:1, pageToken:data.nextPageToken}, function(err, data) {
+      gcal(accessToken).events.list(calendarId, {maxResults:1, pageToken:data.nextPageToken}, function(err, data) {
         console.log(data.items)
       })
     }
