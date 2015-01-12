@@ -276,7 +276,7 @@ Events.prototype.patch = function(calendarId, eventId, patch, option, callback) 
   calendarId = encodeURIComponent(calendarId);
   eventId    = encodeURIComponent(eventId);
   
-  this.request('POST', '/calendars/'+calendarId+'/events/'+eventId, 
+  this.request('PATCH', '/calendars/'+calendarId+'/events/'+eventId, 
     option, {}, patch, callback);
 }
 
