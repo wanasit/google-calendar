@@ -74,7 +74,7 @@ google_calendar.calendarList.list(function(err, calendarList) {
 Running Tests
 =======
 
-This library uses [mocha](http://visionmedia.github.io/mocha/) test framework. 
+This library uses [mocha](http://mochajs.org/) test framework. 
 All test files are included in folder `/specs`. 
 
 To run the test, you need to install the dev-dependencies.
