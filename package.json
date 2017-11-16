@@ -11,7 +11,7 @@
   "dependencies": {
     "passport": "~0.1",
     "passport-google-oauth": "~0.1",
-    "needle": "~0.5",
+    "needle": "~2.0.1",
     "express": "~3.3"
   },
   "devDependencies": {
